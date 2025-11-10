@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Github, Linkedin, Mail, ChevronDown, Code, Briefcase, User, BookOpen, Award, ExternalLink, Download, MapPin, Calendar, GraduationCap } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail, ChevronDown, Code, Briefcase, User, BookOpen, Award, ExternalLink, Download, MapPin, Calendar, GraduationCap, Clock } from 'lucide-react';
 
 
 import ProfilePicture from './assets/sael.jpg'; 
@@ -67,6 +67,54 @@ const TiltCard = ({ children, className = "" }) => {
     >
       {children}
     </div>
+  );
+};
+
+// Live Clock Component
+const LiveClock = () => {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString('id-ID', { 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit',
+      hour12: false 
+    });
+  };
+
+  const formatDate = (date) => {
+    return date.toLocaleDateString('id-ID', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  return (
+    <TiltCard>
+      <SpotlightCard>
+        <div className="p-6 text-center">
+          <div className="w-14 h-14 mx-auto bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-xl">
+            <Clock size={28} className="text-white" />
+          </div>
+          <div className="text-4xl font-bold text-cyan-400 mb-2 font-mono">
+            {formatTime(time)}
+          </div>
+          <div className="text-sm text-gray-400">
+            {formatDate(time)}
+          </div>
+        </div>
+      </SpotlightCard>
+    </TiltCard>
   );
 };
 
@@ -452,6 +500,8 @@ export default function App() {
             </div>
 
             <div className="space-y-4">
+              <LiveClock />
+              
               <SpotlightCard>
                 <div className="p-6">
                   <h4 className="font-bold text-lg mb-4 text-cyan-400">Quick Info</h4>
